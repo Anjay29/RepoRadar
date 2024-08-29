@@ -79,7 +79,7 @@ def scrape_topics():
     return pd.DataFrame(topic_dict)
 ```
 
-## Get the top 25 repositories from a topic page
+## Get the top repositories from a topic page
 
 TODO - explanation and step
 ```
@@ -100,5 +100,76 @@ def get_topic_page(topic_url):
 doc = get_topic_page('https://github.com/topics/3d')
 ```
 TODO - talk about the h3 tags
+
+```
+def parse_star_count(stars_str):
+    stars_str = stars_str.strip()
+    if stars_str[-1] == 'k':
+        return int(float(stars_str[:-1])*1000)
+    return int(stars_str)
+```
+```
+def get_repo_info(h_tag,star_tag):
+    a_tag = h_tag.find_all('a')
+    username = a_tag[0].text.strip()
+    repo_name = a_tag[1].text.strip()
+    repo_url = base_url + a_tag[1]["href"]
+    star = parse_star_count(star_tag.text)
+    return username, repo_name, repo_url, star
+```
+TODO - show a example
+```
+def get_topic_repos(topic_doc):
+    
+    # repo_tags containing repo_name, repo_url and username
+    repo_tags = topic_doc.find_all('h3', {'class' : 'f3 color-fg-muted text-normal lh-condensed'})
+    star_tag = topic_doc.find_all('span',{'id' : 'repo-stars-counter-star'})
+
+    topic_repos_dict = {
+        'username' : [],
+        'repo_name' : [],
+        'stars' : [],
+        'repo_url' : [],
+    }
+
+    for i in range(len(repo_tags)):
+        repo_info = get_repo_info(repo_tags[i],star_tag[i])
+        topic_repos_dict['username'].append(repo_info[0])
+        topic_repos_dict['repo_name'].append(repo_info[1])
+        topic_repos_dict['stars'].append(repo_info[3])
+        topic_repos_dict['repo_url'].append(repo_info[2])
+
+    return pd.DataFrame(topic_repos_dict)
+```
+
+TODO - show an example
+```
+def scrape_topic(topic_url, topic_name):
+    fname = topic_name + '.csv'
+    if os.path.exists(fname):
+        print("The file {} already exists. Skipping..".format(fname))
+        return
+        
+    topic_df = get_topic_repos(get_topic_page(topic_url))
+    topic_df.to_csv(fname, index=None)
+```
+## Putting it all together
+
+- We have a funciton to get the list of topics
+- We have a function to create a CSV file for scraped repos from a topics page
+- Let's create a function to put them together
+
+```
+def scrape_topic_repos():
+    print("Scraping list of topics")
+    topics_df = scrape_topics()
+    for index, row in topics_df.iterrows():
+        print('Scraping top reops for "{}"'.format(row['title']))
+        scrape_topic(row['url'],row['title'])
+```
+Let's run it to scrape the top repos for the all the topics on the first page of https://github.com/topics
+```
+scrape_topic_repos()
+```
 
 
