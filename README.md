@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/608283cf-e918-48dd-935d-649fa2f34348)# RepoRadar
+# RepoRadar
 ## Scraping Top Repositories for Topics on GitHub
 TODO (Intro):
 
@@ -37,3 +37,5 @@ Let's create some helper functions to parse information from the page.
 
 To get topic titles, we can pick `p` tags with the `class` ...
 ![image](https://github.com/user-attachments/assets/088e4ac1-d12b-45c5-8eac-69dedc9f553c)
+![image](https://github.com/user-attachments/assets/1cf1467f-e747-423c-bf7a-502a4e38e2b3)
+
