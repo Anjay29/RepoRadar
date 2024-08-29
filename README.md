@@ -18,17 +18,10 @@ Let's write a function to download the page.
 ```
 import requests
 from bs4 import BeautifulSoup
-def get_topic_page(topic_url):
-     # Download the page
-    res = requests.get(topic_url)
 
-    # checking the status code
-    if res.status_code != 200:
-        raise Exception('Failed to load page {}'.format(topic_url))
-
-    # Parse using beautifulsoup
-    topic_doc = BeautifulSoup(res.text, 'html.parser')
-    return topic_doc
+url = "https://github.com/topics"
+res = requests.get(url)
+doc = BeautifulSoup(page_content, 'html.parser')
 ```
 
 Add some explanation
@@ -50,5 +43,62 @@ def get_topic_title(doc):
     return topic_titles
 ```
 `get_topic_titles` can be used to get the list of titles
+Similarly we have defined functions for descriptions and URLs.
+
+```
+def get_topic_des(doc):
+    topic_desc_tag = doc.find_all('p', {'class' : 'f5 color-fg-muted mb-0 mt-1'})
+    topic_descriptions = []
+    for tag in topic_desc_tag:
+        topic_descriptions.append(tag.text.strip())
+    return topic_descriptions
+
+def get_topic_url(doc):
+    topic_link_tags = doc.find_all('a', {'class' : 'no-underline flex-1 d-flex flex-column'})
+    topic_urls = []
+    base_url = "https://github.com"
+    for tag in topic_link_tags:
+        topic_urls.append(base_url + tag["href"])
+    return topic_urls
+```
+Let's put this all together into a single function
+
+```
+def scrape_topics():
+    topic_url = "https://github.com/topics"
+    res = requests.get(topic_url)
+    if(res.status_code != 200):
+        raise Exception('Failed to load page {}'.format(topic_url))
+
+    doc = BeautifulSoup(res.text, 'html.parser')
+    topic_dict = {
+        'title' : get_topic_title(doc),
+        'description' : get_topic_des(doc),
+        'url' : get_topic_url(doc)
+    }
+    return pd.DataFrame(topic_dict)
+```
+
+## Get the top 25 repositories from a topic page
+
+TODO - explanation and step
+```
+def get_topic_page(topic_url):
+     # Download the page
+    res = requests.get(topic_url)
+
+    # checking the status code
+    if res.status_code != 200:
+        raise Exception('Failed to load page {}'.format(topic_url))
+
+    # Parse using beautifulsoup
+    topic_doc = BeautifulSoup(res.text, 'html.parser')
+    return topic_doc
+```
+
+```
+doc = get_topic_page('https://github.com/topics/3d')
+```
+TODO - talk about the h3 tags
 
 
