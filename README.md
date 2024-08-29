@@ -1,5 +1,5 @@
 # RepoRadar
-#Scraping Top Repositories for Topics on GitHub
+# Scraping Top Repositories for Topics on GitHub
 TODO (Intro):
 
 Introduction about web scraping
