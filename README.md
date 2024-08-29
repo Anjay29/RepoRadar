@@ -39,3 +39,16 @@ To get topic titles, we can pick `p` tags with the `class` ...
 ![image](https://github.com/user-attachments/assets/088e4ac1-d12b-45c5-8eac-69dedc9f553c)
 ![image](https://github.com/user-attachments/assets/1cf1467f-e747-423c-bf7a-502a4e38e2b3)
 
+```
+def get_topic_title(doc):
+    selection_class = "f3 lh-condensed mb-0 mt-1 Link--primary"
+    topic_title_tags = doc.find_all('p', {'class' : selection_class})
+
+    topic_titles = []
+    for tag in topic_title_tags:
+        topic_titles.append(tag.text)
+    return topic_titles
+```
+`get_topic_titles` can be used to get the list of titles
+
+
