@@ -15,3 +15,18 @@ Explain how you'll do it.
 - convert to a Pandas dataframe
 
 Let's write a function to download the page.
+```
+import requests
+from bs4 import BeautifulSoup
+def get_topic_page(topic_url):
+     # Download the page
+    res = requests.get(topic_url)
+
+    # checking the status code
+    if res.status_code != 200:
+        raise Exception('Failed to load page {}'.format(topic_url))
+
+    # Parse using beautifulsoup
+    topic_doc = BeautifulSoup(res.text, 'html.parser')
+    return topic_doc
+```
