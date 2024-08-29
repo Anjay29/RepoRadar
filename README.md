@@ -81,7 +81,7 @@ def scrape_topics():
 
 ## Get the top repositories from a topic page
 
-TODO - explanation and step
+
 ```
 def get_topic_page(topic_url):
      # Download the page
@@ -99,8 +99,6 @@ def get_topic_page(topic_url):
 ```
 doc = get_topic_page('https://github.com/topics/3d')
 ```
-TODO - talk about the h3 tags
-
 ```
 def parse_star_count(stars_str):
     stars_str = stars_str.strip()
@@ -117,7 +115,6 @@ def get_repo_info(h_tag,star_tag):
     star = parse_star_count(star_tag.text)
     return username, repo_name, repo_url, star
 ```
-TODO - show a example
 ```
 def get_topic_repos(topic_doc):
     
@@ -142,7 +139,6 @@ def get_topic_repos(topic_doc):
     return pd.DataFrame(topic_repos_dict)
 ```
 
-TODO - show an example
 ```
 def scrape_topic(topic_url, topic_name):
     fname = topic_name + '.csv'
