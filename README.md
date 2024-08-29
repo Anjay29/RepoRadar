@@ -1,4 +1,4 @@
-# RepoRadar
+![image](https://github.com/user-attachments/assets/608283cf-e918-48dd-935d-649fa2f34348)# RepoRadar
 ## Scraping Top Repositories for Topics on GitHub
 TODO (Intro):
 
@@ -30,3 +30,10 @@ def get_topic_page(topic_url):
     topic_doc = BeautifulSoup(res.text, 'html.parser')
     return topic_doc
 ```
+
+Add some explanation
+
+Let's create some helper functions to parse information from the page.
+
+To get topic titles, we can pick `p` tags with the `class` ...
+![image](https://github.com/user-attachments/assets/088e4ac1-d12b-45c5-8eac-69dedc9f553c)
